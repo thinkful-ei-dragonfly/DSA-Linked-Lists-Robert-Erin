@@ -222,3 +222,4 @@ return currNode.value;
 }
 
 // console.log(findLast(emptyList));
+
