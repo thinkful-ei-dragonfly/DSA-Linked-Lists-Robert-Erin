@@ -122,11 +122,11 @@ class LinkedList {
 
 function main(){
   const SLL = new LinkedList();
-  SLL.insertFirst('Apollo');
-  SLL.insertFirst('Boomer');
-  SLL.insertFirst('Helo');
-  SLL.insertFirst('Husker');
-  SLL.insertFirst('Starbuck');
+  SLL.insertLast('Apollo');
+  SLL.insertLast('Boomer');
+  SLL.insertLast('Helo');
+  SLL.insertLast('Husker');
+  SLL.insertLast('Starbuck');
   SLL.insertLast('Tauhida');
 
   // SLL.insertBefore('newItem', 'Tauhida');
@@ -222,4 +222,59 @@ return currNode.value;
 }
 
 // console.log(findLast(emptyList));
+
+function WhatDoesThisProgramDo(lst) {
+  let current = lst.head;
+  while (current !== null) {
+      let newNode = current;
+      while (newNode.next !== null) {
+          if (newNode.next.value === current.value) {
+              newNode.next = newNode.next.next;
+          }
+          else {
+              newNode = newNode.next;
+          }
+      }
+      current = current.next;
+  }
+}
+/* eliminates duplicate values, O(n^2) */
+
+
+
+const list = new LinkedList()
+list.insertLast(1);  // 1, 3, 2, 60, 3, 5
+list.insertLast(3);
+list.insertLast(2);
+list.insertLast(60);
+list.insertLast(3);
+list.insertLast(5);
+reverseList(list);
+list.printAll();
+
+// 5. Reverse a list
+function reverseList(list) {
+
+  let currNode = list.head; // currNode = 1
+  let reversed = null; // reversed = null
+  // let nextNode = list.head;
+    if(list.head === null) {
+      console.log('No items in list');
+      return;
+    }
+    
+    while(currNode !== null) {  //  , currNode = 2
+        // currNode.next = prevNode;
+        let tempNode = currNode.next; // tempNode = 2 ,  tempNode = 3,
+        currNode.next = reversed; // currNode.next = null  , currNode.next = 1
+        reversed = currNode; // reversed = 1 , reversed = 2
+        currNode = tempNode; // currNode = 2 , currNode = 3
+        // // prevNode = prevNode.next;
+        // currNode = currNode.next;
+    }
+    list.head = reversed;
+    return list;
+}
+
+// 6. 3rd from end
 
