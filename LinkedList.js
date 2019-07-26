@@ -357,6 +357,14 @@ function isCycle(inputList){
   let currNode = inputList.head;
   let isFound = false;
   let history = [];
+  // think about
+//   let checkme = currNode;
+
+// if (checkme === currNode) return true
+
+// const marker = Math.random();
+// have color, repaint later
+// currNode.seen = marker;
   while (currNode.next !== null) {
     if (history.includes(currNode)) {
       return true
