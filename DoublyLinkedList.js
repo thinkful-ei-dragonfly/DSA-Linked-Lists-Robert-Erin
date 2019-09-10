@@ -1,146 +1,145 @@
 class _Node {
   constructor(value, next, prev) {
-    this.value = value;
-    this.next = next;
+    this.value = value,
+    this.next = next,
     this.prev = prev;
   }
 }
 
-class DoublyLinkedList {
-  constructor(){
+class DLinkedList {
+  constructor() {
     this.head = null;
     this.tail = null;
   }
-
   insertFirst(item) {
     let newNode = new _Node(item, this.head, null);
-      if(this.head !== null){
-        this.head.prev = newNode;
-      }
-      this.head = newNode;
-      if(this.tail === null){
-        this.tail = newNode;
-      }
-  }
-
-  insertBefore(item, key) {
-    let currNode = this.head;
-
-    if(this.head === null) {
-      let newNode = new _Node(item, this.head, null);
-      if(this.head !== null){
-        this.head.prev = newNode;
-      }
-      if(this.tail === null){
-        this.tail = newNode;
-      }
+    if (this.head !== null) {
+      this.head.prev = newNode;
     }
-    while(currNode.value !== key) {
-        currNode = currNode.next;
+    this.head = newNode;
+    if (this.tail === null) {
+      this.tail = newNode;
     }
-    let nodeToInsert = new _Node(item, currNode.prev, currNode);
-    let oldCurrNode = currNode.prev;
-    console.log(`Current Node: ${currNode.value}, CurrNode.prev ${currNode.prev.value}, CurrNode.prev.prev ${currNode.prev.prev.value}`);
-    currNode.prev = nodeToInsert;
-    console.log(`Current Node: ${currNode.value}, CurrNode.prev ${currNode.prev.value}, CurrNode.prev.prev ${currNode.prev.prev.value}`);
-    oldCurrNode.next = nodeToInsert;
   }
-
-  insertAfter(item, key) {
-    // let currNode = this.head;
-    // // let nextNode = this.head;
-
-    // while(currNode.value !== key) {
-    //     // prevNode = currNode;
-    //     currNode = currNode.next;
-    // }
-    // currNode.next = new _Node(item, currNode.next);
-  }
-
-  insertAt(item, location) {
-    // let currNode = this.head;
-    // let count = 1;
-    // if(location === 0){
-    //   this.head = new _Node(item, currNode);
-    //   return;
-    // }
-    // while (count < location) {
-    //   currNode = currNode.next;
-    //   count ++;
-    // }
-    // currNode.next = new _Node(item, currNode.next);
-  }
-
   insertLast(item) {
-    // if (this.head === null) {
-    //   this.insertFirst(item);
-    // }
-    // else {
-    //   let tempNode = this.head;
-    //   while (tempNode.next !== null) {
-    //     tempNode = tempNode.next;
-    //   }
-    //   tempNode.next = new _Node(item, null);
-    //   }
+    let newNode = new _Node(item, null, this.tail);
+    if (this.tail !== null) {
+      this.tail.next = newNode;
+    }
+    this.tail = newNode;
+    if (this.head === null) {
+      this.head = newNode;
+    }
   }
-
+  insertAfter(item, prevItem) {
+    let currentNode = this.head;
+    while (currentNode.value !== prevItem) {
+      if (currentNode === null) {
+        console.log('Item not found');
+        return;
+      }
+      currentNode = currentNode.next;
+    }
+    if (currentNode === this.last) {
+      insertLast(item);
+    } else {
+      let newNode = new _Node(item, currentNode.next, currentNode);
+      newNode.next = currentNode.next;
+      newNode.prev = currentNode;
+      currentNode.next.previous = newNode;
+      currentNode.next = newNode;
+    }
+  }
   remove(item) {
-    // if(!this.head){
-    //   return null;
-    // }
-
-    // if(this.head.value === item) {
-    //   this.head = this.head.next;
-    // }
-
-    // let currNode = this.head;
-    // let prevNode = this.head;
-
-    // while((currNode !== null) && (currNode.value !== item)){
-    //   prevNode = currNode;
-    //   currNode = currNode.next;
-    // }
-    // if(currNode === null) {
-    //   console.log('Item not found');
-    //   return;
-    // }
-    // previousNode.next = currNode.next;
-  }
-
-  find(item) {
-    // let currNode = this.head;
-    // if(!this.head){
-    //   return null;
-    // }
-    // while(currNode.value !==item) {
-    //   if(currNode.next === null) {
-    //     return null;
-    //   }
-    //   else {
-    //     currNode = currNode.next;
-    //   }
-    // }
-    // return currNode;
-  }
-
-  printAll() {
-    let currNode = this.head;
-    console.log(this.head.value);
-    if(!this.head){
+    if (!this.head) {
       return null;
     }
-    while(currNode.next !== null) {
-        currNode = currNode.next;
-        console.log(currNode.value);
+    let current = this.head;
+    while (current.value !== item) {
+      current = current.next;
+      if (current === null) {
+        console.log('Item to remove is not on the list');
+        return null;
+      }
     }
-    currNode.next = currNode.next;
+    //found it - now remove it
+
+    //if the node to be removed is head, make the next node head
+    if (current === this.head) {
+      this.head = current.next;
+      //return;
+    } else {
+      current.prev.next = current.next;
+    }
+
+    //delete last node
+    if (current === this.tail) {
+      this.tail = current.prev;
+    } else {
+      current.next.prev = current.prev;
+    }
   }
 }
 
-const testDLL = new DoublyLinkedList();
-testDLL.insertFirst('a');
-testDLL.insertFirst('b');
-testDLL.insertFirst('c');
-testDLL.insertBefore('hi', 'a');
-testDLL.printAll();
 
+function displayList(list) {
+  let currNode = list.head;
+  while (currNode !== null) {
+    console.log(currNode.value);
+    currNode = currNode.next;
+  }
+}
+
+function size(lst) {
+  let counter = 0;
+  let currNode = lst.head;
+  if (!currNode) {
+    return counter;
+  } else
+    counter++;
+  while (!(currNode.next == null)) {
+    counter++;
+    currNode = currNode.next;
+  }
+  return counter;
+}
+
+function reverseDLL(lst) {
+  let currNode = lst.head;
+  let tempNode = null;
+
+  while (currNode !== null) {
+    //swapping nodes
+    tempNode = currNode.next;
+    currNode.next = currNode.prev;
+    currNode.prev = tempNode;
+
+    currNode = tempNode;
+  }
+  tempNode = lst.head;
+  lst.head = lst.tail;
+  lst.tail = tempNode
+}
+
+function main() {
+
+  let dll = new DLinkedList();
+  dll.insertFirst('Aquaria');
+  //add the following items in your doubly linked list. 
+  //`Aquaria, Caprica, Gemenon, Picon, Sagittaron`
+
+  dll.insertLast('Caprica');
+  dll.insertLast('Gemenon');
+  dll.insertLast('Picon');
+  dll.insertLast('Sagittaron');
+
+  //console.log(dll);
+
+  //* Add `Tauron` to the list
+  //* Remove `Picon` from the list
+
+  //dll.remove('Picon');
+  //console.log(size(dll));
+  //console.log(dll);
+  reverseDLL(dll);
+  console.log(dll);

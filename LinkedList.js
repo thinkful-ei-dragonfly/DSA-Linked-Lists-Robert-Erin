@@ -86,7 +86,7 @@ class LinkedList {
       console.log('Item not found');
       return;
     }
-    previousNode.next = currNode.next;
+    prevNode.next = currNode.next;
   }
 
   find(item) {
@@ -135,8 +135,6 @@ function main(){
   SLL.printAll();
 
   // SLL.remove('squirrel');
-
-
 }
 
 // main();
@@ -145,8 +143,79 @@ const testList = new LinkedList();
 testList.insertFirst('Apollo');
 testList.insertLast('Boomer');
 testList.insertLast('Erin');
+testList.insertLast('Erin');
+testList.insertLast('Husker');
+testList.insertLast('Starbuck');
 
 const emptyList = new LinkedList();
+
+const newList = new LinkedList();
+newList.insertFirst('1');
+newList.insertLast('2');
+newList.insertLast('2');
+newList.insertLast('3');
+newList.insertLast('4');
+
+
+
+function deleteDuplicates(list){
+  let currNode = list.head
+  while(currNode.next !== null){
+    // console.log(currNode.value)
+    if(currNode.next.value === currNode.value){
+      list.remove(currNode.next.value)
+    }
+    currNode = currNode.next
+    // if(currNode.next.value === currNode.value){
+    //   console.log('duplicate')
+    //   // list.remove(currNode.next)
+    //   // console.log(currNode)
+    //   // currNode = currNode.next
+    // }
+  }
+
+  return list.printAll()
+}
+
+// deleteDuplicates(newList);
+
+const list1 = new LinkedList();
+list1.insertFirst('B');
+list1.insertLast('i');
+list1.insertLast('l');
+list1.insertLast('b');
+list1.insertLast('o');
+list1.insertLast('a');
+
+const list2 = new LinkedList();
+list2.insertFirst('B');
+list2.insertLast('i');
+list2.insertLast('l');
+list2.insertLast('b');
+list2.insertLast('o');
+list1.insertLast('b');
+
+function compare(list1, list2){
+  let currNode1 = list1.head
+  let currNode2 = list2.head
+  let string1 = ''
+  let string2 = ''
+  while(currNode1.next !== null){
+    string1 += currNode1.value
+    currNode1 = currNode1.next
+  }
+  string1 += currNode1.value
+  while(currNode2.next !== null){
+    string2 += currNode2.value
+    currNode2 = currNode2.next
+  }
+  string2 += currNode2.value
+
+  let result = string1.localeCompare(string2)
+  return result
+}
+
+console.log(compare(list1, list2))
 
 
 function display(list) {
@@ -165,18 +234,16 @@ function display(list) {
 // display(testList);
 
 function size(list) {
-  let count;
   let currNode = list.head;
   if(!list.head){
-    count = 0;
-    return count;
+    return 0;
   }
-  count = 1;
+  let count = 1;
   while(currNode.next !== null) {
     currNode = currNode.next;
     count++;
 }
-return count;
+return count++;
 }
 
 // console.log(size(testList));
@@ -187,32 +254,36 @@ function isEmpty(list){
 
 // console.log(isEmpty(testList));
 
-function findPrevious(list, item) {
-  let currNode = list.head;
-  let prevNode = list.head;
+function findPrev(ll, item){
+  let currNode = ll.head;
+  let prevNode = ll.head;
 
-    if(list.head === null) {
-      console.log('No items in list');
-      return;
-    }
-    if(item === currNode.value) {
-      console.log('No items before first item in list');
-      return;
-    }
-    while(currNode.value !== item && currNode.next !== null) {
-        prevNode = currNode;
-        currNode = currNode.next;
-    }
-    return prevNode.value;
+  if(ll.head === item){
+    return 'first item in list';
+  }
+
+  if(ll.head === null){
+    return 'list is empty';
+  }
+
+  while(currNode.next !== null && currNode.next.value !== item){
+    prevNode = currNode;
+    currNode = currNode.next;
+  }
+
+  if(!currNode.next){
+    return 'item not found in list';
+  }
+
+  return currNode.value;
 }
 
-// console.log(findPrevious(testList, 'Apollo'));
+// console.log(findPrev(testList, 'Starbuck'))
 
 function findLast(list) {
   let currNode = list.head;
   if(!list.head){
-    console.log('No items in list');
-    return;
+    return 'No items in list';
   }
   while(currNode.next !== null) {
     prevNode = currNode;
@@ -221,7 +292,7 @@ function findLast(list) {
 return currNode.value;
 }
 
-// console.log(findLast(emptyList));
+// console.log(findLast(testList));
 
 function WhatDoesThisProgramDo(lst) {
   let current = lst.head;
@@ -240,15 +311,6 @@ function WhatDoesThisProgramDo(lst) {
 }
 /* eliminates duplicate values, O(n^2) */
 
-// const list = new LinkedList()
-// list.insertLast(1);  // 1, 3, 2, 60, 3, 5
-// list.insertLast(3);
-// list.insertLast(2);
-// list.insertLast(60);
-// list.insertLast(3);
-// list.insertLast(5);
-// reverseList(list);
-// list.printAll();
 
 // 5. Reverse a list
 function reverseList(list) {
@@ -274,18 +336,17 @@ function reverseList(list) {
     return list;
 }
 
-// 6. 3rd from end
-const list = new LinkedList()
-list.insertLast(1);  // 1, 3, 2, 60, 3, 5
-list.insertLast(3);
-list.insertLast(2);
-list.insertLast(60);
-list.insertLast(3);
-list.insertLast(5);
-list.insertLast(7);
-// reverseList(list);
-// list.printAll();
+const alist = new LinkedList()
+alist.insertLast(1);  
+alist.insertLast(2);
+alist.insertLast(3);
+alist.insertLast(4);
+alist.insertLast(5);
+alist.insertLast(6);
+// reverseList(alist);
+// alist.printAll();
 
+// 6. 3rd from end
 function findThirdElementFromEnd(inputList){
   let count;
   let currNode = inputList.head;
@@ -308,8 +369,7 @@ function findThirdElementFromEnd(inputList){
   return counterNode.value;
 }
 
-// console.log(findThirdElementFromEnd(list));
-// list.printAll();
+// console.log(findThirdElementFromEnd(alist));
 
 function findMiddleElement(inputList){
   let count;
@@ -324,17 +384,31 @@ function findMiddleElement(inputList){
     count++;
 }
   let middleElement = (Math.floor(count/2));
-  console.log(`Middle element is ${middleElement}`)
+  console.log(`Middle element position is ${middleElement}`)
   let idx = 0;
   let counterNode = inputList.head
   while(idx !== middleElement) {
     counterNode = counterNode.next;
     idx++;
   }
-  return counterNode.value;
+  return `value at middle position is ${counterNode.value}`;
 }
 
-// console.log(findMiddleElement(list));
+// console.log(findMiddleElement(alist));
+
+// alternate:
+function findMiddle(list) {
+  var fastPointer = list.head;
+  var slowPointer = list.head;
+
+  while (fastPointer.next !== null && fastPointer.next.next !== null) {
+    fastPointer = fastPointer.next.next;
+    slowPointer = slowPointer.next;
+  }
+  return slowPointer.value;
+}
+
+// console.log(findMiddle(alist));
 
 let CycleList = new LinkedList();
 CycleList.insertFirst(1);
@@ -367,5 +441,25 @@ function isCycle(inputList){
   return false;
 }
 
-// console.log(isCycle(CycleList));
+// console.log(isCycle(testList))
+// console.log(isCycle(CycleList))
+
+
+//input: list1, 3
+//output: l
+
+
+function findNthEl(list, num){
+  let currNode = list.head
+  count = num
+  while(count > 1){
+    currNode = currNode.next
+    count--
+  }
+
+  return currNode
+}
+
+console.log(findNthEl(list1, 3))
+
 
